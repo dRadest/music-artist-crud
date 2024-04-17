@@ -12,7 +12,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "")
+@Route(value = "", layout = MainLayout.class)
 @PageTitle("Countries")
 public class ListView extends VerticalLayout {
     private Grid<Country> grid = new Grid<>(Country.class);
@@ -21,7 +21,6 @@ public class ListView extends VerticalLayout {
     private CountryForm form;
     private final CrudService service;
 
-    // https://vaadin.com/docs/latest/tutorial/database-access
     public ListView(CrudService service) {
         this.service = service;
         addClassName("list-view");
