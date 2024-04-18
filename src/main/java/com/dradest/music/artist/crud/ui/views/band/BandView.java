@@ -1,7 +1,8 @@
-package com.dradest.music.artist.crud.ui.views;
+package com.dradest.music.artist.crud.ui.views.band;
 
-import com.dradest.music.artist.crud.jpa.model.Country;
+import com.dradest.music.artist.crud.jpa.model.Band;
 import com.dradest.music.artist.crud.jpa.persistence.CrudService;
+import com.dradest.music.artist.crud.ui.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -12,18 +13,18 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "", layout = MainLayout.class)
-@PageTitle("Countries")
-public class ListView extends VerticalLayout {
-    private Grid<Country> grid = new Grid<>(Country.class);
+@Route(value = "bands", layout = MainLayout.class)
+@PageTitle("Bands")
+public class BandView extends VerticalLayout {
+    private Grid<Band> grid = new Grid<>(Band.class);
     private TextField filterText = new TextField();
 
-    private CountryForm form;
+    private BandForm form;
     private final CrudService service;
 
-    public ListView(CrudService service) {
+    public BandView(CrudService service) {
         this.service = service;
-        addClassName("list-view");
+        addClassName("band-view");
         setSizeFull();
         configureGrid();
         configureForm();
@@ -33,31 +34,31 @@ public class ListView extends VerticalLayout {
     }
 
     private void configureGrid() {
-        grid.addClassNames("country-grid");
+        grid.addClassNames("band-grid");
         grid.setSizeFull();
-        grid.setColumns("name", "code");
+        grid.setColumns("name");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
 
         grid.asSingleSelect().addValueChangeListener(event ->
-                editCountry(event.getValue()));
+                editBand(event.getValue()));
     }
 
     private void configureForm() {
-        form = new CountryForm();
+        form = new BandForm();
         form.setWidth("25em");
-        form.addSaveListener(this::saveCountry);
+        form.addSaveListener(this::saveBand);
         form.addDeleteListener(this::deleteCountry);
         form.addCloseListener(e -> closeEditor());
     }
 
-    private void saveCountry(CountryForm.SaveEvent event) {
-        service.saveCountry(event.getCountry());
+    private void saveBand(BandForm.SaveEvent event) {
+        service.saveBand(event.getBand());
         updateList();
         closeEditor();
     }
 
-    private void deleteCountry(CountryForm.DeleteEvent event) {
-        service.deleteCountry(event.getCountry());
+    private void deleteCountry(BandForm.DeleteEvent event) {
+        service.deleteBand(event.getBand());
         updateList();
         closeEditor();
     }
@@ -68,34 +69,34 @@ public class ListView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addCountryButton = new Button("Add country");
-        addCountryButton.addClickListener(click -> addCountry());
+        Button addButtonButton = new Button("Add band");
+        addButtonButton.addClickListener(click -> addBand());
 
-        HorizontalLayout toolbar = new HorizontalLayout(filterText, addCountryButton);
+        HorizontalLayout toolbar = new HorizontalLayout(filterText, addButtonButton);
         toolbar.addClassName("toolbar");
 
         return toolbar;
     }
 
-    public void editCountry(Country country) {
-        if (country == null) {
+    public void editBand(Band band) {
+        if (band == null) {
             closeEditor();
         } else {
-            form.setCountry(country);
+            form.setBand(band);
             form.setVisible(true);
             addClassName("editing");
         }
     }
 
     private void closeEditor() {
-        form.setCountry(null);
+        form.setBand(null);
         form.setVisible(false);
         removeClassName("editing");
     }
 
-    private void addCountry() {
+    private void addBand() {
         grid.asSingleSelect().clear();
-        editCountry(new Country());
+        editBand(new Band());
     }
 
     private Component getContent() {
@@ -108,6 +109,6 @@ public class ListView extends VerticalLayout {
     }
 
     private void updateList() {
-        grid.setItems(service.findAllCountries(filterText.getValue()));
+        grid.setItems(service.findAllBands(filterText.getValue()));
     }
 }

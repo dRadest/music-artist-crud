@@ -1,5 +1,6 @@
 package com.dradest.music.artist.crud.ui.views;
 
+import com.dradest.music.artist.crud.ui.views.band.BandView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H1;
@@ -22,7 +23,7 @@ public class MainLayout extends AppLayout {
                 LumoUtility.FontSize.LARGE,
                 LumoUtility.Margin.MEDIUM);
 
-        var header = new HorizontalLayout(new DrawerToggle(), logo );
+        var header = new HorizontalLayout(new DrawerToggle(), logo);
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.setWidthFull();
         header.addClassNames(
@@ -34,7 +35,8 @@ public class MainLayout extends AppLayout {
 
     private void createDrawer() {
         addToDrawer(new VerticalLayout(
-                new RouterLink("List", ListView.class)
+                new RouterLink("Countries", ListView.class),
+                new RouterLink("Bands", BandView.class)
         ));
     }
 }

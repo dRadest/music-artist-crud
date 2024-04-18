@@ -1,6 +1,7 @@
 package com.dradest.music.artist.crud.jpa.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Set;
 
@@ -9,12 +10,14 @@ public class Band {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty
     @Column(name = "name", nullable = false, unique = true)
     private String name;
     @OneToMany(
             mappedBy = "band",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER // FIXME: load when needed
     )
     // technically, an artist could belong to more than one band, but we won't cover that case (it would require a ManyToMany mapping)
     private Set<Artist> members;
