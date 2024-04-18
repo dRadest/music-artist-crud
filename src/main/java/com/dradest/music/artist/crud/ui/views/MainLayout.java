@@ -1,5 +1,6 @@
 package com.dradest.music.artist.crud.ui.views;
 
+import com.dradest.music.artist.crud.ui.views.artist.ArtistView;
 import com.dradest.music.artist.crud.ui.views.band.BandView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -36,7 +37,8 @@ public class MainLayout extends AppLayout {
     private void createDrawer() {
         addToDrawer(new VerticalLayout(
                 new RouterLink("Countries", ListView.class),
-                new RouterLink("Bands", BandView.class)
+                new RouterLink("Bands", BandView.class),
+                new RouterLink("Artists", ArtistView.class)
         ));
     }
 }

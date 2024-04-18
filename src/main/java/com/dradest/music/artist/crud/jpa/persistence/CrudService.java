@@ -1,7 +1,9 @@
 package com.dradest.music.artist.crud.jpa.persistence;
 
+import com.dradest.music.artist.crud.jpa.model.Artist;
 import com.dradest.music.artist.crud.jpa.model.Band;
 import com.dradest.music.artist.crud.jpa.model.Country;
+import com.dradest.music.artist.crud.jpa.repositories.ArtistJpaRepository;
 import com.dradest.music.artist.crud.jpa.repositories.BandJpaRepository;
 import com.dradest.music.artist.crud.jpa.repositories.CountryJpaRepository;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,12 @@ import java.util.List;
 public class CrudService {
     private final CountryJpaRepository countryJpaRepository;
     private final BandJpaRepository bandJpaRepository;
+    private final ArtistJpaRepository artistJpaRepository;
 
-    public CrudService(CountryJpaRepository countryJpaRepository, BandJpaRepository bandJpaRepository) {
+    public CrudService(CountryJpaRepository countryJpaRepository, BandJpaRepository bandJpaRepository, ArtistJpaRepository artistJpaRepository) {
         this.countryJpaRepository = countryJpaRepository;
         this.bandJpaRepository = bandJpaRepository;
+        this.artistJpaRepository = artistJpaRepository;
     }
 
     public List<Country> findAllCountries(String stringFilter) {
@@ -62,5 +66,23 @@ public class CrudService {
         bandJpaRepository.delete(band);
     }
 
+    public List<Artist> findAllArtists(String stringFilter) {
+        if (stringFilter == null || stringFilter.isEmpty()) {
+            return artistJpaRepository.findAll();
+        } else {
+            return artistJpaRepository.search(stringFilter);
+        }
+    }
 
+    public void deleteArtist(Artist artist) {
+        artistJpaRepository.delete(artist);
+    }
+
+    public void saveArtist(Artist artist) {
+        if (artist == null) {
+            System.err.println("Artist is null. Are you sure you have connected your form to the application?");
+            return;
+        }
+        artistJpaRepository.save(artist);
+    }
 }
