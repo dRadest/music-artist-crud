@@ -1,8 +1,10 @@
 package com.dradest.music.artist.crud.jpa.persistence;
 
+import com.dradest.music.artist.crud.jpa.model.Album;
 import com.dradest.music.artist.crud.jpa.model.Artist;
 import com.dradest.music.artist.crud.jpa.model.Band;
 import com.dradest.music.artist.crud.jpa.model.Country;
+import com.dradest.music.artist.crud.jpa.repositories.AlbumJpaRepository;
 import com.dradest.music.artist.crud.jpa.repositories.ArtistJpaRepository;
 import com.dradest.music.artist.crud.jpa.repositories.BandJpaRepository;
 import com.dradest.music.artist.crud.jpa.repositories.CountryJpaRepository;
@@ -15,11 +17,13 @@ public class CrudService {
     private final CountryJpaRepository countryJpaRepository;
     private final BandJpaRepository bandJpaRepository;
     private final ArtistJpaRepository artistJpaRepository;
+    private final AlbumJpaRepository albumJpaRepository;
 
-    public CrudService(CountryJpaRepository countryJpaRepository, BandJpaRepository bandJpaRepository, ArtistJpaRepository artistJpaRepository) {
+    public CrudService(CountryJpaRepository countryJpaRepository, BandJpaRepository bandJpaRepository, ArtistJpaRepository artistJpaRepository, AlbumJpaRepository albumJpaRepository) {
         this.countryJpaRepository = countryJpaRepository;
         this.bandJpaRepository = bandJpaRepository;
         this.artistJpaRepository = artistJpaRepository;
+        this.albumJpaRepository = albumJpaRepository;
     }
 
     public List<Country> findAllCountries(String stringFilter) {
@@ -84,5 +88,25 @@ public class CrudService {
             return;
         }
         artistJpaRepository.save(artist);
+    }
+
+    public List<Album> findAllAlbums(String stringFilter) {
+        if (stringFilter == null || stringFilter.isEmpty()) {
+            return albumJpaRepository.findAll();
+        } else {
+            return albumJpaRepository.search(stringFilter);
+        }
+    }
+
+    public void deleteAlbum(Album album) {
+        albumJpaRepository.delete(album);
+    }
+
+    public void saveAlbum(Album album) {
+        if (album == null) {
+            System.err.println("Album is null. Are you sure you have connected your form to the application?");
+            return;
+        }
+        albumJpaRepository.save(album);
     }
 }

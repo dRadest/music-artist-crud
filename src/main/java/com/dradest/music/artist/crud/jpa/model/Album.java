@@ -10,13 +10,15 @@ public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "title", nullable = false)
+    private String title;
     @Column(name = "record_label")
     private String recordLabel;
     @Column(name = "release_date")
     private LocalDate releaseDate;
-    @OneToMany(mappedBy = "album")
+    @OneToMany(mappedBy = "album", fetch = FetchType.EAGER)
     private Set<AlbumSong> albumSongs;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // FIXME
     private Band band; // bidirectional mapping
 
 
@@ -26,6 +28,14 @@ public class Album {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getRecordLabel() {
