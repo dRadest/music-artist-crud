@@ -44,7 +44,7 @@ public class AlbumView extends VerticalLayout {
 
     private void configureForm() {
         form = new AlbumForm(service.findAllBands(null));
-        form.setWidth("25em");
+        form.setWidth("60em");
         form.addSaveListener(this::saveAlbum);
         form.addDeleteListener(this::deleteAlbum);
         form.addCloseListener(e -> closeEditor());

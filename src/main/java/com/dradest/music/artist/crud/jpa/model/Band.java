@@ -17,7 +17,7 @@ public class Band {
             mappedBy = "band",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.EAGER // FIXME: load when needed
+            fetch = FetchType.EAGER // FIXME: set fetch to LAZY and load entities where needed
     )
     // technically, an artist could belong to more than one band, but we won't cover that case (it would require a ManyToMany mapping)
     private Set<Artist> members;

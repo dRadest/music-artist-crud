@@ -23,6 +23,7 @@ public class AlbumForm extends FormLayout {
     TextField recordLabel = new TextField("Record label");
     DatePicker releaseDate = new DatePicker("Release date");
     ComboBox<Band> band = new ComboBox<>("Band");
+    AlbumTracklistField albumSongs = new AlbumTracklistField();
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -41,6 +42,7 @@ public class AlbumForm extends FormLayout {
                 recordLabel,
                 releaseDate,
                 band,
+                albumSongs,
                 createButtonsLayout());
     }
 
@@ -74,8 +76,6 @@ public class AlbumForm extends FormLayout {
         private Album album;
 
         protected AlbumFormEvent(AlbumForm source, Album album) {
-
-
             super(source, false);
             this.album = album;
         }

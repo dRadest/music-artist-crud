@@ -12,7 +12,7 @@ public class Artist {
     @Column(name = "last_name")
     private String lastName;
     // ... other fields such as yearOfBirth ... //
-    @ManyToOne(fetch = FetchType.EAGER) // FIXME: change to LAZY and load entity where needed in the UI
+    @ManyToOne(fetch = FetchType.EAGER) // FIXME: set fetch to LAZY and load entities where needed
     @JoinColumn(name = "country_id")
     private Country country;
     @ManyToOne(fetch = FetchType.EAGER)
