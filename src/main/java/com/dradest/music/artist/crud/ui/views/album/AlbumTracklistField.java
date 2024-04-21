@@ -99,15 +99,6 @@ public class AlbumTracklistField extends CustomField<Set<AlbumSong>> {
 
     @Override
     protected Set<AlbumSong> generateModelValue() {
-/*        Set<AlbumSong> albumSongs = new HashSet<>();
-        int position = 1;
-        for (Song aSong : songSet) {
-            AlbumSong albumSong = new AlbumSong();
-            albumSong.setPosition(position);
-            albumSong.setSong(aSong);
-            albumSongs.add(albumSong);
-            position++;
-        }*/
         return value;
     }
 
@@ -121,6 +112,7 @@ public class AlbumTracklistField extends CustomField<Set<AlbumSong>> {
         } else {
             for (AlbumSong albumSong : albumSongs) {
                 songSet.add(albumSong.getSong());
+                position++;
             }
             value = albumSongs;
         }

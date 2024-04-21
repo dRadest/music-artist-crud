@@ -12,10 +12,14 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Route(value = "albums", layout = MainLayout.class)
 @PageTitle("Albums")
 public class AlbumView extends VerticalLayout {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlbumView.class);
+
     private Grid<Album> grid = new Grid<>(Album.class);
     private TextField filterText = new TextField();
     private AlbumForm form;
@@ -69,8 +73,19 @@ public class AlbumView extends VerticalLayout {
         grid.addColumn(album -> album.getBand() != null ? album.getBand().getName() : "/").setHeader("Band");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
 
-        grid.asSingleSelect().addValueChangeListener(event ->
-                editAlbum(event.getValue()));
+        grid.asSingleSelect().addValueChangeListener(event -> {
+            Album selectedAlbum = event.getValue();
+            // loading from db because event value sometimes doesn't hold all the objects (investigate!)
+            if (selectedAlbum != null && selectedAlbum.getId() != null) {
+                Album albumById = service.findAlbumById(selectedAlbum.getId());
+                if (albumById == null) {
+                    LOGGER.warn("NULL album by id [{}]", selectedAlbum.getId());
+                } else {
+                    selectedAlbum = albumById;
+                }
+            }
+            editAlbum(selectedAlbum);
+        });
     }
 
     public void editAlbum(Album album) {

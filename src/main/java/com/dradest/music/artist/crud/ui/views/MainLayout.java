@@ -37,10 +37,10 @@ public class MainLayout extends AppLayout {
 
     private void createDrawer() {
         addToDrawer(new VerticalLayout(
-                new RouterLink("Countries", ListView.class),
                 new RouterLink("Bands", BandView.class),
                 new RouterLink("Artists", ArtistView.class),
-                new RouterLink("Albums", AlbumView.class)
+                new RouterLink("Albums", AlbumView.class),
+                new RouterLink("Countries", ListView.class)
         ));
     }
 }

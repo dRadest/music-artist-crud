@@ -12,7 +12,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "", layout = MainLayout.class)
+@Route(value = "Countries", layout = MainLayout.class)
 @PageTitle("Countries")
 public class ListView extends VerticalLayout {
     private Grid<Country> grid = new Grid<>(Country.class);

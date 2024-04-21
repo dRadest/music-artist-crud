@@ -5,6 +5,7 @@ import com.dradest.music.artist.crud.jpa.repositories.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CrudService {
@@ -65,6 +66,7 @@ public class CrudService {
     }
 
     public void deleteBand(Band band) {
+        artistJpaRepository.removeBandFromArtists(band);
         bandJpaRepository.delete(band);
     }
 
@@ -96,7 +98,17 @@ public class CrudService {
         }
     }
 
+    public Album findAlbumById(Long id) {
+        Optional<Album> optAlbum = albumJpaRepository.findById(id);
+        return optAlbum.orElse(null);
+    }
+
     public void deleteAlbum(Album album) {
+        //albumJpaRepository.removeBandFromAlbums(album.getBand());
+        // update band
+        Band band = album.getBand();
+        band.getAlbums().remove(album);
+        bandJpaRepository.save(band);
         albumJpaRepository.delete(album);
     }
 

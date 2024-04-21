@@ -1,6 +1,5 @@
 package com.dradest.music.artist.crud.ui.views.band;
 
-import com.dradest.music.artist.crud.jpa.model.Artist;
 import com.dradest.music.artist.crud.jpa.model.Band;
 import com.dradest.music.artist.crud.jpa.persistence.CrudService;
 import com.dradest.music.artist.crud.ui.views.MainLayout;
@@ -21,7 +20,7 @@ import com.vaadin.flow.router.Route;
 import java.time.format.DateTimeFormatter;
 import java.util.StringJoiner;
 
-@Route(value = "bands", layout = MainLayout.class)
+@Route(value = "", layout = MainLayout.class)
 @PageTitle("Bands")
 public class BandView extends VerticalLayout {
     private Grid<Band> grid = new Grid<>(Band.class);
@@ -119,7 +118,7 @@ public class BandView extends VerticalLayout {
         form = new BandForm();
         form.setWidth("25em");
         form.addSaveListener(this::saveBand);
-        form.addDeleteListener(this::deleteCountry);
+        form.addDeleteListener(this::deleteBand);
         form.addCloseListener(e -> closeEditor());
     }
 
@@ -129,7 +128,7 @@ public class BandView extends VerticalLayout {
         closeEditor();
     }
 
-    private void deleteCountry(BandForm.DeleteEvent event) {
+    private void deleteBand(BandForm.DeleteEvent event) {
         service.deleteBand(event.getBand());
         updateList();
         closeEditor();

@@ -135,4 +135,39 @@ public class JpaTest {
         assertEquals(highVoltageAlbum.getTitle(), albumById.getTitle());
         assertEquals(highVoltageAlbum.getRecordLabel(), albumById.getRecordLabel());
     }
+
+    @Test
+    public void testDeleteArtist() {
+        Artist artist = new Artist();
+        artist.setFirstName("John");
+        artist.setLastName("Lenon");
+
+        Band beatles = new Band();
+        beatles.setName("Beatles");
+        beatles = bandJpaRepository.save(beatles);
+        artist.setBand(beatles);
+
+        Country greatBritain;
+        Optional<Country> optCountry = countryJpaRepository.findByCode("GB");
+        if (optCountry.isPresent()) {
+            greatBritain = optCountry.get();
+        } else {
+            greatBritain = new Country();
+            greatBritain.setCode("GB");
+            greatBritain.setName("Great Britain");
+            greatBritain = countryJpaRepository.save(greatBritain);
+        }
+        artist.setCountry(greatBritain);
+
+        artist = artistJpaRepository.save(artist);
+        assertNotNull(artist);
+        Long artistId = artist.getId();
+        assertNotNull(artistId);
+        Optional<Artist> optArtist = artistJpaRepository.findById(artistId);
+        assertTrue(optArtist.isPresent());
+        artistJpaRepository.delete(artist);
+        optArtist = artistJpaRepository.findById(artistId);
+        assertFalse(optArtist.isPresent());
+
+    }
 }

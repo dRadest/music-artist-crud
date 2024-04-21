@@ -1,6 +1,8 @@
 package com.dradest.music.artist.crud.jpa.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -11,15 +13,18 @@ public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty
     @Column(name = "title", nullable = false)
     private String title;
     @Column(name = "record_label")
     private String recordLabel;
-    @Column(name = "release_date")
+    @NotNull
+    @Column(name = "release_date", nullable = false)
     private LocalDate releaseDate;
     // FIXME: set fetch to LAZY and load entities where needed
     @OneToMany(mappedBy = "album", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<AlbumSong> albumSongs = new HashSet<>();
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private Band band; // bidirectional mapping
 
